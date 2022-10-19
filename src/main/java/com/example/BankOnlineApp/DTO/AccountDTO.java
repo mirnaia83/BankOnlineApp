@@ -1,5 +1,7 @@
 package com.example.BankOnlineApp.DTO;
 
+import java.time.LocalDate;
+
 public class AccountDTO {
     private String balance;
     private Long primaryOwnerId;
@@ -7,10 +9,14 @@ public class AccountDTO {
     private String creditLimit;
     private String interestRate;
     private String minimumBalance;
-    private String lastInterestDay;
+    private LocalDate lastInterestDay;
+    private String penaltyFee;
+    private String monthlyMaintenanceFee;
+    private LocalDate creationDate;
+
 
     public AccountDTO(String balance, Long primaryOwnerId, Long secondaryOwnerId, String creditLimit, String interestRate, String minimumBalance,
-                      String lastInterestDay) {
+                      LocalDate lastInterestDay, String penaltyFee, String monthlyMaintenanceFee, LocalDate creationDate) {
         this.balance = balance;
         this.primaryOwnerId = primaryOwnerId;
         this.secondaryOwnerId = secondaryOwnerId;
@@ -18,6 +24,9 @@ public class AccountDTO {
         this.interestRate = interestRate;
         this.minimumBalance = minimumBalance;
         this.lastInterestDay = lastInterestDay;
+        this.penaltyFee = penaltyFee;
+        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
+        this.creationDate = creationDate;
     }
 
     public String getBalance() {
@@ -68,11 +77,35 @@ public class AccountDTO {
         this.minimumBalance = minimumBalance;
     }
 
-    public String getLastInterestDay() {
+    public LocalDate getLastInterestDay() {
         return lastInterestDay;
     }
 
-    public void setLastInterestDay(String lastInterestDay) {
+    public void setLastInterestDay(LocalDate lastInterestDay) {
         this.lastInterestDay = lastInterestDay;
+    }
+
+    public String getPenaltyFee() {
+        return penaltyFee;
+    }
+
+    public void setPenaltyFee(String penaltyFee) {
+        this.penaltyFee = penaltyFee;
+    }
+
+    public String getMonthlyMaintenanceFee() {
+        return monthlyMaintenanceFee;
+    }
+
+    public void setMonthlyMaintenanceFee(String monthlyMaintenanceFee) {
+        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 }

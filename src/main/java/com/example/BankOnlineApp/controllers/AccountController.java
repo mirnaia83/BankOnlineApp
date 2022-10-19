@@ -4,6 +4,7 @@ import com.example.BankOnlineApp.DTO.AccountDTO;
 import com.example.BankOnlineApp.controllers.controllerInterfaces.AccountControllerInterface;
 import com.example.BankOnlineApp.entities.account.Account;
 import com.example.BankOnlineApp.entities.Money;
+import com.example.BankOnlineApp.entities.account.CheckingAccount;
 import com.example.BankOnlineApp.entities.account.CreditCard;
 import com.example.BankOnlineApp.entities.account.Savings;
 import com.example.BankOnlineApp.entities.enums.EnumerationStatus;
@@ -31,6 +32,12 @@ public class AccountController implements AccountControllerInterface {
     @PostMapping("/new-savings")
     public Savings newSavings(@RequestBody AccountDTO accountDTO){
         return accountService.createSavings(accountDTO);
+    }
+
+    //create new CheckingAccount
+    @PostMapping("/new-CheckingAccount")
+    public CheckingAccount newCheckingAccount(@RequestBody AccountDTO accountDTO){
+        return accountService.createCheckingAccount(accountDTO);
     }
 
     //check balance

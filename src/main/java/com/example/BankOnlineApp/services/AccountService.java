@@ -1,10 +1,9 @@
 package com.example.BankOnlineApp.services;
 
 import com.example.BankOnlineApp.DTO.AccountDTO;
-import com.example.BankOnlineApp.entities.account.Account;
+import com.example.BankOnlineApp.entities.account.*;
 import com.example.BankOnlineApp.entities.Money;
-import com.example.BankOnlineApp.entities.account.CreditCard;
-import com.example.BankOnlineApp.entities.account.Savings;
+import com.example.BankOnlineApp.entities.enums.EnumerationStatus;
 import com.example.BankOnlineApp.entities.user.AccountHolder;
 import com.example.BankOnlineApp.repositories.AccountHolderRepository;
 import com.example.BankOnlineApp.services.serviceInterfaces.AccountServiceInterface;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
 
 @Service
 public class AccountService {
@@ -50,10 +50,28 @@ public class AccountService {
         Savings savings = new Savings(balance, primaryOwner, secondaryOwner, interestRate, minimumBalance, LocalDate.now());
 
         return  accountRepository.save(savings);
-
     }
 
+    public CheckingAccount createCheckingAccount(AccountDTO accountDTO){
+        BigDecimal balanceBigDecimal = new BigDecimal(accountDTO.getBalance());
+        Money balance = new Money(balanceBigDecimal);
+        AccountHolder primaryOwner = accountHolderRepository.findById(accountDTO.getPrimaryOwnerId()).get();
+        AccountHolder secondaryOwner = accountHolderRepository.findById(accountDTO.getSecondaryOwnerId()).get();
+        BigDecimal minimumBalanceBigDecimal = new BigDecimal(accountDTO.getMinimumBalance());
+        Money minimumBalance = new Money(minimumBalanceBigDecimal);
+        Money penaltyFee = new Money(new BigDecimal(accountDTO.getPenaltyFee()));
+        Money monthlyMaintenanceFee = new Money(new BigDecimal(accountDTO.getMonthlyMaintenanceFee()));
 
+        if( Period.between(primaryOwner.getDateOfBirth(), LocalDate.now()).getYears() >= 24  ){
+            CheckingAccount checkingAccount = new CheckingAccount(balance, primaryOwner, secondaryOwner, minimumBalance, penaltyFee,
+                    monthlyMaintenanceFee, LocalDate.now(), EnumerationStatus.ACTIVE);
+        } else {
+            StudentCheckingAccount studentCheckingAccount = new StudentCheckingAccount(balance, primaryOwner, secondaryOwner, minimumBalance, penaltyFee,
+                    monthlyMaintenanceFee, LocalDate.now(), EnumerationStatus.ACTIVE);}
+        return  accountRepository.save(new CheckingAccount());
+
+
+    }
 
 
 
