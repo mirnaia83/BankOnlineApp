@@ -73,12 +73,13 @@ public class AccountService {
 
     }
 
-
-
     public Money getBalance(Long idAccountNumber) {
         return accountRepository.findById(idAccountNumber).get().getBalance();
     }
 
+    public Money receiveFunds(Long idAccountNumber){
+        return accountRepository.findById(idAccountNumber).get().getBalance();
+    }
 
 
 }

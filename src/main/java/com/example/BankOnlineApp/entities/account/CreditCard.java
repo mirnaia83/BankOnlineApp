@@ -5,7 +5,12 @@ import com.example.BankOnlineApp.entities.account.Account;
 import com.example.BankOnlineApp.entities.user.AccountHolder;
 
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
 
 @Entity
 public class CreditCard extends Account {
@@ -13,13 +18,17 @@ public class CreditCard extends Account {
     @AttributeOverrides({
             @AttributeOverride(name = "currency", column = @Column(name = "credit_limit_currency")),
             @AttributeOverride(name = "amount", column = @Column(name = "creadit_limit_amount"))})
+    @Min(100)
+    @Max(100000)
     public Money creditLimit;
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "currency", column = @Column(name = "interest_rate_currency")),
             @AttributeOverride(name = "amount", column = @Column(name = "interest_rate_amount"))})
-    public Money interestRate;
-    //private LocalDate lastInterestDay;
+    @DecimalMin(value = "0.1")
+   private Money interestRate = new Money(BigDecimal.valueOf(0.2));
+
+    private LocalDate lastInterestDay;
 
     public CreditCard() {
     }
@@ -47,11 +56,11 @@ public class CreditCard extends Account {
         this.interestRate = interestRate;
     }
 
-//    public LocalDate getLastInterestDay() {
-//        return lastInterestDay;
-//    }
-//
-//    public void setLastInterestDay(LocalDate lastInterestDay) {
-//        this.lastInterestDay = lastInterestDay;
-//    }
+    public  void interestRate(){
+        if(Period.between(lastInterestDay, LocalDate.now()).getMonths() >= 1){
+            BigDecimal bigDecimal = getBalance().getAmount().multiply(interestRate.getAmount());
+            setBalance(new Money(getBalance().increaseAmount(bigDecimal)));
+        }
+    }
+
 }

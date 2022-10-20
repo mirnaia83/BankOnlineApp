@@ -2,18 +2,14 @@ package com.example.BankOnlineApp.controllers;
 
 import com.example.BankOnlineApp.DTO.AccountDTO;
 import com.example.BankOnlineApp.controllers.controllerInterfaces.AccountControllerInterface;
-import com.example.BankOnlineApp.entities.account.Account;
 import com.example.BankOnlineApp.entities.Money;
 import com.example.BankOnlineApp.entities.account.CheckingAccount;
 import com.example.BankOnlineApp.entities.account.CreditCard;
 import com.example.BankOnlineApp.entities.account.Savings;
-import com.example.BankOnlineApp.entities.enums.EnumerationStatus;
 import com.example.BankOnlineApp.services.AccountService;
-import com.example.BankOnlineApp.services.serviceInterfaces.AccountServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 
 @RestController
 public class AccountController implements AccountControllerInterface {
@@ -47,7 +43,11 @@ public class AccountController implements AccountControllerInterface {
     }
 
     //receive funds
-//    @PutMapping("account/{idAccountNumber}/receive")
-//    public void receiveFunds(@PathVariable Long idAccountNumber)
+     @PutMapping("account/{idAccountNumber}/receive")
+     public Money receiveFunds(@PathVariable Long idAccountNumber){
+        return accountService.getBalance(idAccountNumber);
+     }
+
+
 
 }

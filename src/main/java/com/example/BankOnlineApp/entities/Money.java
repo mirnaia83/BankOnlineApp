@@ -83,6 +83,5 @@ public class Money {
         return getCurrency().getSymbol() + " " + getAmount();
     }
 
-//    public AccountHolderService get() {
-//    }
+
 }

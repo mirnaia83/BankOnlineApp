@@ -6,7 +6,9 @@ import com.example.BankOnlineApp.entities.enums.EnumerationStatus;
 import com.example.BankOnlineApp.entities.user.AccountHolder;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Period;
 
 @Entity
 public class Savings extends Account {
@@ -57,4 +59,22 @@ public class Savings extends Account {
     public void setLastInterestDay(LocalDate lastInterestDay) {
         this.lastInterestDay = lastInterestDay;
     }
+
+    @Override
+    public void setBalance(Money balance){
+        if(minimumBalance == null){
+            minimumBalance = new Money(BigDecimal.valueOf(1000));
+        }
+        super.setBalance(balance);
+        if(minimumBalance.getAmount().compareTo(balance.getAmount())>0)
+            super.setBalance(new Money(super.getBalance().decreaseAmount(super.getPenaltyFee())));
+    }
+
+    public void checkInterestRate(){
+        if(Period.between(lastInterestDay, LocalDate.now()).getYears()>=1){
+            BigDecimal bigDecimal = getBalance().getAmount().multiply(interestRate.getAmount());
+            setBalance(new Money(getBalance().increaseAmount(bigDecimal)));
+        }
+    }
+
 }

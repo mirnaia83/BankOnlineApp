@@ -110,4 +110,7 @@ public abstract class Account {
     public void setEnumerationStatus(EnumerationStatus enumerationStatus) {
         this.enumerationStatus = enumerationStatus;
     }
+
+    public void checkInterestRate() {
+    }
 }
