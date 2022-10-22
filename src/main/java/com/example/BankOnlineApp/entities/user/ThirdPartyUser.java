@@ -10,32 +10,22 @@ import java.time.LocalDate;
 @Entity
 public class ThirdPartyUser extends User {
 
-    private String hashedKey;
-    private String name;
+    private String secretKey;
+
 
     public ThirdPartyUser() {
     }
 
-    public ThirdPartyUser(Money balance, String username, String password, int penaltyFee,
-                         LocalDate creationDate, EnumerationStatus enumerationStatus, String hashedKey, String name) {
-        super(balance, username, password, penaltyFee, creationDate, enumerationStatus);
-        this.hashedKey = hashedKey;
-        this.name = name;
+    public ThirdPartyUser(String username, String password, String hashedKey) {
+        super(username, password);
+        this.secretKey = secretKey;
     }
 
     public String getHashedKey() {
-        return hashedKey;
+        return secretKey;
     }
 
     public void setHashedKey(String hashedKey) {
-        this.hashedKey = hashedKey;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.secretKey = hashedKey;
     }
 }

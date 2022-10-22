@@ -1,7 +1,6 @@
 package com.example.BankOnlineApp.entities.account;
 
 import com.example.BankOnlineApp.entities.Money;
-import com.example.BankOnlineApp.entities.account.Account;
 import com.example.BankOnlineApp.entities.user.AccountHolder;
 
 import javax.persistence.*;
@@ -34,7 +33,7 @@ public class CreditCard extends Account {
     }
 
     public CreditCard(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money creditLimit, Money interestRate) {
-        super(balance, primaryOwner, secondaryOwner);
+        super(balance, secretKey, primaryOwner, secondaryOwner);
         this.creditLimit = creditLimit;
         this.interestRate = interestRate;
 

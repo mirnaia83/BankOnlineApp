@@ -2,6 +2,7 @@ package com.example.BankOnlineApp.services;
 
 import com.example.BankOnlineApp.entities.Money;
 import com.example.BankOnlineApp.entities.account.Account;
+import com.example.BankOnlineApp.entities.user.ThirdPartyUser;
 import com.example.BankOnlineApp.repositories.AccountRepository;
 import com.example.BankOnlineApp.services.serviceInterfaces.ThirdPartyUserServiceInterface;
 import com.example.BankOnlineApp.repositories.ThirdPartyUserRepository;
@@ -33,7 +34,10 @@ public class ThirdPartyUserService implements ThirdPartyUserServiceInterface {
         accountRepository.saveAll(List.of(account, account1));
         return account.getBalance();
         }
+
+    public void createThirdPartyUser(ThirdPartyUser thirdPartyUser) {
     }
+}
 
 
 

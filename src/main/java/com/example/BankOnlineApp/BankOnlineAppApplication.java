@@ -28,9 +28,9 @@ public class BankOnlineAppApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Address address1 = new Address("Calle x", "6548l", "España");
+		Address address1 = new Address("Calle x", 654812, "España");
 
-		AccountHolder accountHolder1 = new AccountHolder("Irina", "irina@gmail.com", LocalDate.of(2000,1,1),"654654","password",address1,address1);
+		AccountHolder accountHolder1 = new AccountHolder("Irina", "irina@gmail.com", LocalDate.of(2000,1,1), 654654, "password", address1);
 		accountHolderRepository.save(accountHolder1);
 
 	}

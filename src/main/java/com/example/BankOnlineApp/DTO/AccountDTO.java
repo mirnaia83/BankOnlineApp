@@ -1,104 +1,83 @@
 package com.example.BankOnlineApp.DTO;
 
+import com.example.BankOnlineApp.entities.user.AccountHolder;
+
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Currency;
 
 public class AccountDTO {
-    private String balance;
-    private Long primaryOwnerId;
-    private Long secondaryOwnerId;
-    private String creditLimit;
-    private String interestRate;
-    private String minimumBalance;
-    private LocalDate lastInterestDay;
-    private String penaltyFee;
-    private String monthlyMaintenanceFee;
+    @NotNull
+    private BigDecimal balance;
+
+    private Currency currency;
+
+    @NotNull
+    private String secretKey;
+
+    private AccountHolder secondaryOwner;
+
+    private BigDecimal minimumBalance;
+
     private LocalDate creationDate;
 
+    private BigDecimal interestRate;
 
-    public AccountDTO(String balance, Long primaryOwnerId, Long secondaryOwnerId, String creditLimit, String interestRate, String minimumBalance,
-                      LocalDate lastInterestDay, String penaltyFee, String monthlyMaintenanceFee, LocalDate creationDate) {
+    private BigDecimal creditLimit;
+
+    public AccountDTO(BigDecimal balance, Currency currency, String secretKey,
+                      AccountHolder secondaryOwner, BigDecimal minimumBalance,
+                      LocalDate creationDate, BigDecimal interestRate,
+                      BigDecimal creditLimit) {
         this.balance = balance;
-        this.primaryOwnerId = primaryOwnerId;
-        this.secondaryOwnerId = secondaryOwnerId;
-        this.creditLimit = creditLimit;
-        this.interestRate = interestRate;
+        this.currency = currency;
+        this.secretKey = secretKey;
+        this.secondaryOwner = secondaryOwner;
         this.minimumBalance = minimumBalance;
-        this.lastInterestDay = lastInterestDay;
-        this.penaltyFee = penaltyFee;
-        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
         this.creationDate = creationDate;
+        this.interestRate = interestRate;
+        this.creditLimit = creditLimit;
     }
 
-    public String getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(String balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
-    public Long getPrimaryOwnerId() {
-        return primaryOwnerId;
+    public Currency getCurrency() {
+        return currency;
     }
 
-    public void setPrimaryOwnerId(Long primaryOwnerId) {
-        this.primaryOwnerId = primaryOwnerId;
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
-    public Long getSecondaryOwnerId() {
-        return secondaryOwnerId;
+    public String getSecretKey() {
+        return secretKey;
     }
 
-    public void setSecondaryOwnerId(Long secondaryOwnerId) {
-        this.secondaryOwnerId = secondaryOwnerId;
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 
-    public String getCreditLimit() {
-        return creditLimit;
+    public AccountHolder getSecondaryOwner() {
+        return secondaryOwner;
     }
 
-    public void setCreditLimit(String creditLimit) {
-        this.creditLimit = creditLimit;
+    public void setSecondaryOwner(AccountHolder secondaryOwner) {
+        this.secondaryOwner = secondaryOwner;
     }
 
-    public String getInterestRate() {
-        return interestRate;
-    }
-
-    public void setInterestRate(String interestRate) {
-        this.interestRate = interestRate;
-    }
-
-    public String getMinimumBalance() {
+    public BigDecimal getMinimumBalance() {
         return minimumBalance;
     }
 
-    public void setMinimumBalance(String minimumBalance) {
+    public void setMinimumBalance(BigDecimal minimumBalance) {
         this.minimumBalance = minimumBalance;
-    }
-
-    public LocalDate getLastInterestDay() {
-        return lastInterestDay;
-    }
-
-    public void setLastInterestDay(LocalDate lastInterestDay) {
-        this.lastInterestDay = lastInterestDay;
-    }
-
-    public String getPenaltyFee() {
-        return penaltyFee;
-    }
-
-    public void setPenaltyFee(String penaltyFee) {
-        this.penaltyFee = penaltyFee;
-    }
-
-    public String getMonthlyMaintenanceFee() {
-        return monthlyMaintenanceFee;
-    }
-
-    public void setMonthlyMaintenanceFee(String monthlyMaintenanceFee) {
-        this.monthlyMaintenanceFee = monthlyMaintenanceFee;
     }
 
     public LocalDate getCreationDate() {
@@ -108,4 +87,33 @@ public class AccountDTO {
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
+
+    public BigDecimal getInterestRate() {
+        return interestRate;
+    }
+
+    public void setInterestRate(BigDecimal interestRate) {
+        this.interestRate = interestRate;
+    }
+
+    public BigDecimal getCreditLimit() {
+        return creditLimit;
+    }
+
+    public void setCreditLimit(BigDecimal creditLimit) {
+        this.creditLimit = creditLimit;
+    }
+
+    public Long getPrimaryOwnerId() {
+    }
+
+    public Long getSecondaryOwnerId() {
+    }
+
+    public char[] getMonthlyMaintenanceFee() {
+    }
+
+    public char[] getPenaltyFee() {
+    }
 }
+

@@ -30,8 +30,8 @@ public class AccountService {
         Money balance = new Money(balanceBigDecimal);
         AccountHolder primaryOwner = accountHolderRepository.findById(accountDTO.getPrimaryOwnerId()).get();
         AccountHolder secondaryOwner = accountHolderRepository.findById(accountDTO.getSecondaryOwnerId()).get();
-        Money creditLimit = new Money(new BigDecimal(accountDTO.getCreditLimit()));
-        Money interestRate = new Money(new BigDecimal(accountDTO.getInterestRate()));
+        Money creditLimit = new Money(new BigDecimal(String.valueOf(accountDTO.getCreditLimit())));
+        Money interestRate = new Money(new BigDecimal(String.valueOf(accountDTO.getInterestRate())));
 
         CreditCard creditCard = new CreditCard(balance, primaryOwner, secondaryOwner, creditLimit, interestRate);
 
@@ -39,12 +39,12 @@ public class AccountService {
     }
 
     public Savings createSavings(AccountDTO accountDTO){
-        BigDecimal balanceBigDecimal = new BigDecimal(accountDTO.getBalance());
+        BigDecimal balanceBigDecimal = new BigDecimal(String.valueOf(accountDTO.getBalance()));
         Money balance = new Money(balanceBigDecimal);
         AccountHolder primaryOwner = accountHolderRepository.findById(accountDTO.getPrimaryOwnerId()).get();
         AccountHolder secondaryOwner = accountHolderRepository.findById(accountDTO.getSecondaryOwnerId()).get();
-        Money interestRate = new Money(new BigDecimal(accountDTO.getInterestRate()));
-        BigDecimal minimumBalanceBigDecimal = new BigDecimal(accountDTO.getMinimumBalance());
+        Money interestRate = new Money(new BigDecimal(String.valueOf(accountDTO.getInterestRate())));
+        BigDecimal minimumBalanceBigDecimal = new BigDecimal(String.valueOf(accountDTO.getMinimumBalance()));
         Money minimumBalance = new Money(minimumBalanceBigDecimal);
 
         Savings savings = new Savings(balance, primaryOwner, secondaryOwner, interestRate, minimumBalance, LocalDate.now());
@@ -82,4 +82,6 @@ public class AccountService {
     }
 
 
+    public void deleteAccount(Long id) {
+    }
 }

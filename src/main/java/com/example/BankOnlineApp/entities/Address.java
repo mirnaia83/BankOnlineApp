@@ -1,18 +1,23 @@
 package com.example.BankOnlineApp.entities;
 
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class Address {
-
+@NotNull
    private String address;
-    private String postalCode;
+@NotNull
+@Digits(integer = 6, fraction = 0)
+    private Integer postalCode;
+@NotNull
     private String country;
 
     public Address() {
     }
 
-    public Address(String address, String postalCode, String country) {
+    public Address(String address, Integer postalCode, String country) {
         this.address = address;
         this.postalCode = postalCode;
         this.country = country;
@@ -26,11 +31,11 @@ public class Address {
         this.address = address;
     }
 
-    public String getPostalCode() {
+    public Integer getPostalCode() {
         return postalCode;
     }
 
-    public void setPostalCode(String postalCode) {
+    public void setPostalCode(Integer postalCode) {
         this.postalCode = postalCode;
     }
 

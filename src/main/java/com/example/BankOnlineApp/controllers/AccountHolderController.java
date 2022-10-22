@@ -38,10 +38,4 @@ public class AccountHolderController implements AccountHolderControllerInterface
         return  accountHolderServiceInterface.transferMoney(accountHolderDTO.getIdAccountNumber(), accountHolderDTO.getAmount(), accountHolderDTO.getIdAccountNumber1());
     }
 
-
-
-
-
-
-//public Bigdecimal transferMoney(Account senderAccount, Account receiverAccount, Bigdecimal amount)
 }

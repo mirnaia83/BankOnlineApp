@@ -35,7 +35,7 @@ public abstract class Account {
     private EnumerationStatus enumerationStatus;
 
 
-    public Account( Money balance, AccountHolder primaryOwner,
+    public Account(Money balance, String secretKey, AccountHolder primaryOwner,
                    AccountHolder secondaryOwner) {
         this.balance = balance;
         this.primaryOwner = primaryOwner;

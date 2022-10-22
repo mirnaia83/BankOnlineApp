@@ -19,7 +19,7 @@ public class AccountController implements AccountControllerInterface {
 
     //create new CreditCard
 
-    @PostMapping("/new-credit")
+    @PostMapping("/new-creditCard")
     public CreditCard newCreditCard(@RequestBody AccountDTO accountDTO){
         return accountService.createCreditCard(accountDTO);
     }
@@ -48,6 +48,14 @@ public class AccountController implements AccountControllerInterface {
         return accountService.getBalance(idAccountNumber);
      }
 
+   //delete account
+     @DeleteMapping("/delete/account")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteAccount(@RequestParam Long id) {
+
+        accountService.deleteAccount(id);
+
+    }
 
 
 }

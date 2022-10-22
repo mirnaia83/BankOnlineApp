@@ -38,6 +38,11 @@ public class AdminService implements AdminServiceInterface {
     }
 
 
+    public void modifyBalance(Long id, BigDecimal amount) {
+    }
+
+    public void freezeAccount(Long id) {
+    }
 }
 
 

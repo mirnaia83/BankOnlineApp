@@ -1,8 +1,6 @@
 package com.example.BankOnlineApp.entities.account;
 
 import com.example.BankOnlineApp.entities.Money;
-import com.example.BankOnlineApp.entities.account.Account;
-import com.example.BankOnlineApp.entities.enums.EnumerationStatus;
 import com.example.BankOnlineApp.entities.user.AccountHolder;
 
 import javax.persistence.*;
@@ -30,7 +28,7 @@ public class Savings extends Account {
 
     public Savings(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner,
                    Money minimumBalance, Money interestRate, LocalDate lastInterestDay) {
-        super(balance, primaryOwner, secondaryOwner);
+        super(balance, secretKey, primaryOwner, secondaryOwner);
         this.minimumBalance = minimumBalance;
         this.interestRate = interestRate;
         this.lastInterestDay = lastInterestDay;

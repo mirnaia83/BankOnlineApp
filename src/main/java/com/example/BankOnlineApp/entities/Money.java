@@ -1,8 +1,11 @@
 package com.example.BankOnlineApp.entities;
 
+import com.example.BankOnlineApp.entities.enums.CurrencyValue;
 import com.example.BankOnlineApp.services.AccountHolderService;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
@@ -13,52 +16,36 @@ public class Money {
     private static final Currency EUR = Currency.getInstance("EUR");
     private static final RoundingMode DEFAULT_ROUNDING = RoundingMode.HALF_EVEN;
 
-    private final Currency currency;
+    private static CurrencyValue defaultCurrencyValue = CurrencyValue.EURO;
+    @NotNull
+    private CurrencyValue currencyValue;
+
+    @NotNull
+    @Column(precision = 19, scale = 4)
     private BigDecimal amount;
 
     public Money() {
-        currency = EUR;
+
     }
 
-    public Money(Currency currency) {
-        this.currency = currency;
+    public Money(CurrencyValue currencyValue) {
+        this.currencyValue = currencyValue;
     }
 
-    /**
-     * Class constructor specifying amount, currency, and rounding
-     **/
 
-    public Money(BigDecimal amount, Currency currency, RoundingMode rounding) {
-        this.currency = currency;
-        setAmount(amount.setScale(currency.getDefaultFractionDigits(), rounding));
+    public Money(CurrencyValue currencyValue, BigDecimal amount) {
+        setCurrencyValue(currencyValue);
+        this.amount = amount;
     }
 
-    /**
-     * Class constructor specifying amount, and currency. Uses default RoundingMode HALF_EVEN.
-     **/
-    public Money(BigDecimal amount, Currency currency) {
-        this(amount, currency, DEFAULT_ROUNDING);
-    }
-
-    /**
-     * Class constructor specifying amount. Uses default RoundingMode HALF_EVEN and default currency USD.
-     **/
     public Money(BigDecimal amount) {
-        this(amount, EUR, DEFAULT_ROUNDING);
+        this.amount = amount;
+        this.currencyValue = defaultCurrencyValue;
     }
 
-    public BigDecimal increaseAmount(Money money) {
-        setAmount(this.amount.add(money.amount));
-        return this.amount;
-    }
 
     public BigDecimal increaseAmount(BigDecimal addAmount) {
         setAmount(this.amount.add(addAmount));
-        return this.amount;
-    }
-
-    public BigDecimal decreaseAmount(Money money) {
-        setAmount(this.amount.subtract(money.getAmount()));
         return this.amount;
     }
 
@@ -67,8 +54,8 @@ public class Money {
         return this.amount;
     }
 
-    public Currency getCurrency() {
-        return this.currency;
+    public CurrencyValue getCurrencyValue() {
+        return this.currencyValue;
     }
 
     public BigDecimal getAmount() {
@@ -80,8 +67,16 @@ public class Money {
     }
 
     public String toString() {
-        return getCurrency().getSymbol() + " " + getAmount();
+        return getCurrencyValue().getSymbol() + " " + getAmount();
     }
 
+    public void setCurrency(CurrencyValue currencyValue) {
+        if (currencyValue == null) {
+            this.currencyValue = defaultCurrencyValue;
+        } else {
+            this.currencyValue = currencyValue;
+        }
+
+    }
 
 }

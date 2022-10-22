@@ -1,4 +1,4 @@
-//package com.example.BankOnlineApp.controllers.controllerInterfaces;
-//
-//public interface ThirdPartyUserControllerInterface {
-//}
+package com.example.BankOnlineApp.controllers.controllerInterfaces;
+
+public interface ThirdPartyUserControllerInterface {
+}
