@@ -16,6 +16,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 
+import static com.example.BankOnlineApp.entities.account.Savings.secretKey;
+
 @Service
 public class AccountService {
 
@@ -24,6 +26,9 @@ public class AccountService {
 
     @Autowired
     AccountHolderRepository accountHolderRepository;
+    private Money money;
+    private Object owner;
+    private Money creationDate;
 
     public CreditCard createCreditCard(AccountDTO accountDTO){
         BigDecimal balanceBigDecimal = new BigDecimal(String.valueOf(accountDTO.getBalance()));
@@ -68,6 +73,7 @@ public class AccountService {
         } else {
             StudentCheckingAccount studentCheckingAccount = new StudentCheckingAccount(balance, primaryOwner, secondaryOwner, minimumBalance, penaltyFee,
                     monthlyMaintenanceFee, LocalDate.now(), EnumerationStatus.ACTIVE);}
+        
         return  accountRepository.save(new CheckingAccount(money, secretKey, owner, secondaryOwner, creationDate));
 
 

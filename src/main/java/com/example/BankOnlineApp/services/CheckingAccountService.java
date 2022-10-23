@@ -17,10 +17,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 
 @Service
-public class CheckingAccountService {
+public class CheckingAccountService implements CheckingAccountServiceInterface {
 
     @Autowired
     CheckingAccountRepository checkingAccountRepository;
+
     @Autowired
     AccountHolderRepository accountHolderRepository;
 
@@ -34,7 +35,7 @@ public class CheckingAccountService {
 
             Money money = new Money(accountDTO.getCurrency(), accountDTO.getBalance());
             String secretKey = accountDTO.getSecretKey();
-            AccountHolder owner = (AccountHolder) accountHolderRepository.findById(id).get();
+            Object owner = accountHolderRepository.findById(id).get();
             AccountHolder secondaryOwner = accountDTO.getSecondaryOwner();
             Money minimumBalance = new Money(accountDTO.getMinimumBalance());
             LocalDate creationDate;
@@ -43,29 +44,24 @@ public class CheckingAccountService {
             } else {
                 creationDate = today;}
 
-            if (accountHolderRepository.findById(id).get().
-
-                    //isAfter(today.minusYears(24))) {
-
-                StudentCheckingAccount studentCheckingAccount = new StudentCheckingAccount(money, secretKey, owner, secondaryOwner, creationDate);
-
-                studentCheckingAccountRepository.save(studentCheckingAccount);
-
-            } else {
+            if (!accountHolderRepository.findById(id).get().getDateOfBirth().isAfter(today.minusYears(24))) {
 
                 CheckingAccount checkingAccount = new CheckingAccount(money, secretKey, owner, secondaryOwner, creationDate);
                 if (minimumBalance.getAmount() != null) {
                     checkingAccount.getMoney().setAmount(minimumBalance.getAmount());
                 }
-
                 checkingAccountRepository.save(checkingAccount);
+            } else {
+
+                StudentCheckingAccount studentCheckingAccount = new StudentCheckingAccount(money, secretKey, owner, secondaryOwner, creationDate);
+
+                studentCheckingAccountRepository.save(studentCheckingAccount);
+
             }
-
         } else {
-
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "An AccountHolder with this ID doesn't exits in the database");
         }
     }
-}
 
+}

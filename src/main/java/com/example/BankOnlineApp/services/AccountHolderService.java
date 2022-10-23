@@ -19,6 +19,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static com.example.BankOnlineApp.entities.account.Savings.secretKey;
+
 @Service
 public abstract class AccountHolderService implements AccountHolderServiceInterface {
 
@@ -30,6 +32,10 @@ public abstract class AccountHolderService implements AccountHolderServiceInterf
 
     @Autowired
     TransactionRepository transactionRepository;
+    private Money money;
+    private Object owner;
+    private AccountHolder secondaryOwner;
+    private Money creationDate;
 
 
     //register new accountHolder

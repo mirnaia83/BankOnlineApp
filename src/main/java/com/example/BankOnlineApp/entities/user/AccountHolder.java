@@ -14,144 +14,99 @@ import java.util.List;
 @Entity
 public class AccountHolder extends User {
 
-    private String username;
-    private String mail;
     @NotNull
-    @JsonFormat(pattern = "DD-MM-YYYY")
+    @JsonFormat (pattern = "DD-MM-YYYY")
     private LocalDate dateOfBirth;
-    private String phone;
-    private String password;
-
-
-
     @Embedded
     @NotNull
     private Address primaryAddress;
-
-
     @Embedded
     @AttributeOverrides({
-            @AttributeOverride(name = "address", column = @Column(name = "mailingAddress")),
-            @AttributeOverride(name = "postalCode", column = @Column(name = "mailingPostalCode")),
-            @AttributeOverride(name = "country", column = @Column(name = "mailingCountry"))})
-    private Address mailingAddress;
+            @AttributeOverride(name = "address", column = @Column(name = "SECONDARY_NAME")),
+            @AttributeOverride(name = "postalCode", column = @Column(name = "SECONDARY_POSTAL_CODE")),
+            @AttributeOverride(name = "city", column = @Column(name = "SECONDARY_CITY")),
+            @AttributeOverride(name = "country", column = @Column(name = "SECONDARY_COUNTRY"))
+    })
+    private Address secondaryAddress;
 
-    @OneToMany(mappedBy = "primaryOwner")
-    @JsonIgnore
-    private List<Account> primaryAccountHolderList;
+    @OneToMany (mappedBy = "primaryOwner")
+    private List<Account> primaryAccountList = new ArrayList<>();
+
+    @OneToMany (mappedBy = "secondaryOwner")
+    private List<Account> sndAccountList = new ArrayList<>();
 
 
-    @OneToMany(mappedBy = "secondaryOwner")
-    @JsonIgnore
-    private List<Account> secondaryAccountHolderList;
+    @OneToMany (mappedBy = "moneySender")
+    private List<Transaction> sentTransferenceList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "moneySender")
-    private List<Transaction> sentTransactionList = new ArrayList<>();
+    @OneToMany (mappedBy = "moneyReceiver")
+    private List<Transaction> receiveTransferenceList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "moneyReceiver")
-    private List<Transaction> receiveTransactionList = new ArrayList<>();
 
-    public AccountHolder(){
-
-    }
-
-    public AccountHolder(String username, String password, LocalDate dateOfBirth,
-                         Address primaryAddress, Address secondaryAddress) {
+    public AccountHolder(String username, String password, LocalDate dateOfBirth, Address primaryAddress, Address secondaryAddress) {
         super(username, password);
         this.dateOfBirth = dateOfBirth;
         this.primaryAddress = primaryAddress;
-        this.mailingAddress = mailingAddress;
+        this.secondaryAddress = secondaryAddress;
     }
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
+    public AccountHolder() {
 
-    @Override
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
     }
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Address getPrimaryAddress() {
         return primaryAddress;
+    }
+
+    public Address getSecondaryAddress() {
+        return secondaryAddress;
+    }
+
+    public List<Account> getPrimaryAccountList() {
+        return primaryAccountList;
+    }
+
+    public List<Account> getSndAccountList() {
+        return sndAccountList;
+    }
+
+    public List<Transaction> getSentTransferenceList() {
+        return sentTransferenceList;
+    }
+
+    public List<Transaction> getReceiveTransferenceList() {
+        return receiveTransferenceList;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public void setPrimaryAddress(Address primaryAddress) {
         this.primaryAddress = primaryAddress;
     }
 
-    public Address getMailingAddress() {
-        return mailingAddress;
+    public void setSecondaryAddress(Address secondaryAddress) {
+        this.secondaryAddress = secondaryAddress;
     }
 
-    public void setMailingAddress(Address mailingAddress) {
-        this.mailingAddress = mailingAddress;
+    public void setPrimaryAccountList(List<Account> primaryAccountList) {
+        this.primaryAccountList = primaryAccountList;
     }
 
-    public List<Account> getPrimaryAccountHolderList() {
-        return primaryAccountHolderList;
+    public void setSndAccountList(List<Account> sndAccountList) {
+        this.sndAccountList = sndAccountList;
     }
 
-    public void setPrimaryAccountHolderList(List<Account> primaryAccountHolderList) {
-        this.primaryAccountHolderList = primaryAccountHolderList;
+    public void setSentTransferenceList(Transaction transaction) {
+        this.sentTransferenceList.add(transaction);
     }
 
-    public List<Account> getSecondaryAccountHolderList() {
-        return secondaryAccountHolderList;
-    }
-
-    public void setSecondaryAccountHolderList(List<Account> secondaryAccountHolderList) {
-        this.secondaryAccountHolderList = secondaryAccountHolderList;
-    }
-
-    public List<Transaction> getSentTransactionList() {
-        return sentTransactionList;
-    }
-
-    public void setSentTransactionList(List<Transaction> sentTransactionList) {
-        this.sentTransactionList = sentTransactionList;
-    }
-
-    public List<Transaction> getReceiveTransactionList() {
-        return receiveTransactionList;
-    }
-
-    public void setReceiveTransactionList(List<Transaction> receiveTransactionList) {
-        this.receiveTransactionList = receiveTransactionList;
+    public void setReceiveTransferenceList(List<Transaction> receiveTransferenceList) {
+        this.receiveTransferenceList = receiveTransferenceList;
     }
 }
