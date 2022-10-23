@@ -8,8 +8,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
 
+
+
 @Entity
 public class Savings extends Account {
+    public static final String secretKey = "1234";
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "currency", column = @Column(name = "minimum_balance_currency")),
@@ -75,4 +78,18 @@ public class Savings extends Account {
         }
     }
 
+    public void setSecretKey(String secretKey) {
+    }
+
+    public void setPrimaryOwner(Object o) {
+    }
+
+    public void setMinimumBalance(BigDecimal minimumBalance) {
+    }
+
+    public void setId(long l) {
+    }
+
+    public void setEnumerationStatus() {
+    }
 }

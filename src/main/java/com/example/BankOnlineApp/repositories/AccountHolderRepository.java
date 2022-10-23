@@ -4,15 +4,10 @@ import com.example.BankOnlineApp.entities.user.AccountHolder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface AccountHolderRepository extends JpaRepository<AccountHolder, Long> {
-//    Long findBalanceById(Long id);
-//
-//    void withdrawAmountById(Long id, int amount);
-//
-//    void saveBalanceById(Long destinationAcctId, int amount);
-    //register
-    // login
-    //accessBalance
-    //transferBalance
+
+    Optional<Object> findById(String id);
 }

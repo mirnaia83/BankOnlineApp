@@ -9,6 +9,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
 
+import static com.example.BankOnlineApp.entities.account.Savings.secretKey;
+
 @Entity
 public class CheckingAccount extends Account {
     @Min(250)
@@ -18,7 +20,7 @@ public class CheckingAccount extends Account {
    // private LocalDate lastInterestDay;
     private Money monthlyMaintenanceFee;
 
-    public CheckingAccount(){
+    public CheckingAccount(Money money, String secretKey, Object owner, AccountHolder secondaryOwner, LocalDate creationDate){
 
 
     }

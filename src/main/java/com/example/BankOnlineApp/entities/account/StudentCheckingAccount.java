@@ -20,10 +20,10 @@ public class StudentCheckingAccount extends Account {
     @Enumerated(EnumType.STRING)
     private EnumerationStatus enumerationStatus = EnumerationStatus.ACTIVE;
 
-    public StudentCheckingAccount(Money balance, AccountHolder primaryOwner, AccountHolder secondaryOwner, Money minimumBalance, Money penaltyFee, Money monthlyMaintenanceFee, LocalDate now, EnumerationStatus active) {
+    public StudentCheckingAccount() {
     }
 
-    public StudentCheckingAccount(Money money, String secretKey, AccountHolder primaryOwner, AccountHolder secondaryOwner, LocalDate creationDate) {
+    public StudentCheckingAccount(Money money, String secretKey, Object primaryOwner, AccountHolder secondaryOwner, LocalDate creationDate) {
         super(money, secretKey, primaryOwner, secondaryOwner);
         this.creationDate = creationDate;
     }

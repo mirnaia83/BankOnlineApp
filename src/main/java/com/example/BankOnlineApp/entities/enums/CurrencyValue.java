@@ -7,6 +7,7 @@ public enum CurrencyValue {
 
     public String getSymbol() {
 
+        return null;
     }
 }
 

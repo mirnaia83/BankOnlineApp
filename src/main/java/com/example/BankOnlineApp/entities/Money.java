@@ -1,7 +1,6 @@
 package com.example.BankOnlineApp.entities;
 
 import com.example.BankOnlineApp.entities.enums.CurrencyValue;
-import com.example.BankOnlineApp.services.AccountHolderService;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -24,7 +23,7 @@ public class Money {
     @Column(precision = 19, scale = 4)
     private BigDecimal amount;
 
-    public Money() {
+    public Money(Currency currency, BigDecimal balance) {
 
     }
 
@@ -36,6 +35,10 @@ public class Money {
     public Money(CurrencyValue currencyValue, BigDecimal amount) {
         setCurrencyValue(currencyValue);
         this.amount = amount;
+    }
+
+    private void setCurrencyValue(CurrencyValue currencyValue) {
+
     }
 
     public Money(BigDecimal amount) {
@@ -62,7 +65,7 @@ public class Money {
         return this.amount;
     }
 
-    private void setAmount(BigDecimal amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
@@ -79,4 +82,9 @@ public class Money {
 
     }
 
+    public BigDecimal moneyConversionEur() {
+    return null;}
+
+    public void conversionToAccount() {
+    }
 }

@@ -21,4 +21,5 @@ public class ThirdPartyUserController implements ThirdPartyUserControllerInterfa
     public void createThirdParty(@RequestBody ThirdPartyUser thirdPartyUser) {
 
         thirdPartyUserService.createThirdPartyUser(thirdPartyUser);
+    }
 }

@@ -7,7 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, String> {
 
-    // freeze Account
-    //access/modify balance
-    //create/modify Account
 }

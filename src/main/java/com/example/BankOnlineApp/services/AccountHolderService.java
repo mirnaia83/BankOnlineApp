@@ -1,11 +1,14 @@
 package com.example.BankOnlineApp.services;
 
 import com.example.BankOnlineApp.entities.Money;
+import com.example.BankOnlineApp.entities.Transaction;
 import com.example.BankOnlineApp.entities.account.Account;
+import com.example.BankOnlineApp.entities.account.CheckingAccount;
 import com.example.BankOnlineApp.entities.account.CreditCard;
 import com.example.BankOnlineApp.entities.account.Savings;
 import com.example.BankOnlineApp.entities.user.AccountHolder;
 import com.example.BankOnlineApp.repositories.AccountRepository;
+import com.example.BankOnlineApp.repositories.TransactionRepository;
 import com.example.BankOnlineApp.services.serviceInterfaces.AccountHolderServiceInterface;
 import com.example.BankOnlineApp.repositories.AccountHolderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,10 @@ public abstract class AccountHolderService implements AccountHolderServiceInterf
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    TransactionRepository transactionRepository;
+
 
     //register new accountHolder
     public AccountHolder registerAccountHolder(AccountHolder accountHolder){
@@ -50,18 +57,70 @@ public BigDecimal getBalance(Long idAccountNumber){
     return account.getBalance().getAmount();
 }
 
-public String transferBalanceAccountHolder(Long idAccountNumber, String name, BigDecimal amount, Long idAccountNumber2){
-        Account account = accountRepository.findById(idAccountNumber).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Sender doesn't exist"));
-        Account account1 = accountRepository.findById(idAccountNumber2).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Receiver doesn't find"));
+    //transfer amount of money
+    public void transferAmount(String ownerName, Long ownerId, Money transactionAmount) {
 
-        account.setBalance(new Money(account.getBalance().decreaseAmount(amount)));
-        account1.setBalance(new Money(account1.getBalance().increaseAmount(amount)));
+        Account receiverAccount;
+        AccountHolder receiverHolder;
 
-        accountRepository.save(account);
-        accountRepository.save(account1);
+        if (accountRepository.findById(ownerId).isPresent()) {
+            receiverAccount = accountRepository.findById(ownerId).get();
 
-        String transfer = account.getPrimaryOwner().getUsername() + "has sent" + amount + "to" + account1.getPrimaryOwner().getUsername();
-        return transfer;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The ID of the account is not in our systems");
+        }
+
+        if (receiverAccount.getPrimaryOwner().getUsername().matches(ownerName) || receiverAccount.getSecondaryOwner().getUsername().matches(ownerName)) {
+
+
+            Account senderAccount = new CheckingAccount(money, secretKey, owner, secondaryOwner, creationDate);
+
+            receiverHolder = receiverAccount.getPrimaryOwner();
+
+
+
+            if (senderAccount.getMoney().getAmount().compareTo(transactionAmount.getAmount()) < 0) {
+                throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Not enough funds in your account");
+            } else {
+
+                BigDecimal amountSent = transactionAmount.moneyConversionEur();
+                BigDecimal senderBalance = senderAccount.getMoney().moneyConversionEur();
+                BigDecimal receiverBalance = receiverAccount.getMoney().moneyConversionEur();
+
+                BigDecimal senderFinal = senderBalance.subtract(amountSent);
+                BigDecimal receiverFinal = receiverBalance.add(amountSent);
+
+
+                Money resultSender = senderAccount.getMoney();
+                Money resultReceiver = receiverAccount.getMoney();
+
+                resultSender.setAmount(senderFinal);
+                resultSender.conversionToAccount();
+
+                resultReceiver.setAmount(receiverFinal);
+                resultReceiver.conversionToAccount();
+
+                senderAccount.setMoney(resultSender);
+                receiverAccount.setMoney(resultReceiver);
+
+                if (senderAccount.getClass().equals(CheckingAccount.class)) {
+                    if (senderAccount.getMoney().getAmount().compareTo(((CheckingAccount) senderAccount).getMinimumBalance().getAmount()) < 0) {
+                        senderAccount.applyPenaltyFee();
+                    }
+                } else if (senderAccount.getClass().equals(Savings.class)){
+                    if (senderAccount.getMoney().getAmount().compareTo(((Savings) senderAccount).getMinimumBalance().getAmount()) < 0) {
+                        senderAccount.applyPenaltyFee();
+                    }
+                }
+                accountRepository.save(senderAccount);
+                accountRepository.save(receiverAccount);
+
+                Transaction transaction = new Transaction(senderAccount.getPrimaryOwner(), receiverAccount.getPrimaryOwner());
+                transactionRepository.save(transaction);
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The name of the client introduced doesn't match");
+        }
     }
 }
 

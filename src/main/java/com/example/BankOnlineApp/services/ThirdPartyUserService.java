@@ -23,7 +23,10 @@ public class ThirdPartyUserService implements ThirdPartyUserServiceInterface {
     @Autowired
     AccountRepository accountRepository;
 
-    public Money transfer(Long idAccountNumber, BigDecimal amount, Long idAccountNumber2, String hashedKey){
+    public void createThirdPartyUser(ThirdPartyUser thirdPartyUser) {
+        thirdPartyUserRepository.save(thirdPartyUser);
+    }
+    public Money transferMoney(Long idAccountNumber, BigDecimal amount, Long idAccountNumber2, String hashedKey){
         Account account = accountRepository.findById(idAccountNumber).orElseThrow(() ->new ResponseStatusException(HttpStatus.NOT_FOUND, "account is not found"));
         if(!thirdPartyUserRepository.findByHashedKey(hashedKey))
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "is not available");
@@ -35,8 +38,7 @@ public class ThirdPartyUserService implements ThirdPartyUserServiceInterface {
         return account.getBalance();
         }
 
-    public void createThirdPartyUser(ThirdPartyUser thirdPartyUser) {
-    }
+
 }
 
 

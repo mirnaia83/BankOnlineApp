@@ -105,15 +105,19 @@ public class AccountDTO {
     }
 
     public Long getPrimaryOwnerId() {
+        return null;
     }
 
     public Long getSecondaryOwnerId() {
+        return null;
     }
 
     public char[] getMonthlyMaintenanceFee() {
+        return new char[0];
     }
 
     public char[] getPenaltyFee() {
+        return new char[0];
     }
 }
 

@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Account {
+    private  String secretKey;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAccountNumber;
@@ -35,12 +36,12 @@ public abstract class Account {
     private EnumerationStatus enumerationStatus;
 
 
-    public Account(Money balance, String secretKey, AccountHolder primaryOwner,
+    public Account(Money balance, String secretKey, Object primaryOwner,
                    AccountHolder secondaryOwner) {
         this.balance = balance;
-        this.primaryOwner = primaryOwner;
+        this.primaryOwner = (AccountHolder) primaryOwner;
         this.secondaryOwner = secondaryOwner;
-        //this.secretKey = secretKey;
+        this.secretKey = secretKey;
         this.creationDate = LocalDate.now();
         this.enumerationStatus = EnumerationStatus.ACTIVE;
 
@@ -112,5 +113,15 @@ public abstract class Account {
     }
 
     public void checkInterestRate() {
+    }
+
+    public Money getMoney() {
+        return null;
+    }
+
+    public void setMoney(Money resultSender) {
+    }
+
+    public void applyPenaltyFee() {
     }
 }

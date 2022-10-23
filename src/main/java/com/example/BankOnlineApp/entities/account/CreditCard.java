@@ -13,6 +13,7 @@ import java.time.Period;
 
 @Entity
 public class CreditCard extends Account {
+    private static final String secretKey = null;
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "currency", column = @Column(name = "credit_limit_currency")),
@@ -62,4 +63,10 @@ public class CreditCard extends Account {
         }
     }
 
+    public void setSecretKey(String secretKey) {
+
+    }
+
+    public void setPrimaryOwner(Object o) {
+    }
 }

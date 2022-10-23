@@ -13,11 +13,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     List<Account> findByPrimaryOwner(AccountHolder accountHolder);
 
     List<Account> findBySecondaryOwner(AccountHolder accountHolder);
-//    Money findBalanceBy(Long idAccountNumber);
 
-    //transfer()
-    //Check balance()
-    //Receive funds()
-    //Query DetectateFraud
 
 }

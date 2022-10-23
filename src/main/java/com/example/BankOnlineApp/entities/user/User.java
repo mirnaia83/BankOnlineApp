@@ -3,9 +3,7 @@ package com.example.BankOnlineApp.entities.user;
 import com.example.BankOnlineApp.entities.Money;
 import com.example.BankOnlineApp.entities.enums.EnumerationStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
